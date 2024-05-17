@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vxml version = "2.1" >
+<property name="inputmodes" value="dtmf" /> 
+
+ <form id="menu0">
+   <block>
+   	<prompt bargein="true">Bienvenue dans l'assistant météo pour l'agriculture.</prompt>
+   	<prompt bargein="true">Aujourd'hui 16 avril 2024, position locale, Le Caire.</prompt>
+    <prompt bargein="true">Diffusion météorologique d'urgence : 70 % de probabilité de grêle aujourd'hui, prévue entre 10h00 et 17h00, veuillez faire attention pour éviter tout danger.</prompt>
+	<goto next="#menu1"/>
+   </block>
+ </form>
+
+ <form id="menu1">
+   <field name="page">
+	<prompt bargein="true">
+		Quelle page aimeriez-vous lire ?
+		<enumerate>For <value expr="_prompt"/>, presse <value expr="_dtmf"/>.</enumerate>
+	</prompt>
+	<option dtmf="1" value="today">Informations météorologiques</option>
+	<option dtmf="2" value="history">Informations météorologiques historiques.</option>
+	<option dtmf="3" value="feedback">Commentaires météo.</option>
+	<option dtmf="0" value="Back">Répéter les options du menu.</option>
+	<noinput>Veuillez entrer un numéro.<reprompt/></noinput>      
+  	<nomatch>Ce n’est pas une option. Essayer à nouveau.<reprompt/></nomatch>
+   <filled namelist="page">
+        <if cond="page == 'Back'">
+            <goto next="main.xml"/>
+        </if>
+        <if cond="page == 'today'">
+            <prompt bargein="true">Météo : Ensoleillé, Température : 20 degrés Celsius, adapté aux sports de plein air, Précipitations : 0 ml, Vitesse du vent : Vent modéré, mouvement confortable. Demain, météo prévue : averses, température attendue à 11°C, faible risque de pluie, pas de vent. Après-demain, la météo prévue : venteux, prévu un peu plus froid, il faudra rajouter des vêtements.</prompt>
+            <goto next="#menu1"/>
+        </if>
+        <if cond="page == 'history'">
+            <prompt bargein="true">Les conditions météorologiques étaient similaires à la même période l’année dernière. Les températures varient de 12 à 20 degrés Celsius et la plupart du temps est ensoleillé et venteux.</prompt>
+            <goto next="#menu1"/>
+        </if>
+        <if cond="page == 'feedback'">
+            <goto next="#menu2"/>
+        </if>
+  </filled>
+  </field>
+ </form>
+
+ <form id="menu2">
+    <field name="feedback">
+        <prompt bargein="true">La météo était-elle exacte hier ?
+            <enumerate>For <value expr="_prompt"/>, press <value expr="_dtmf"/>.</enumerate>
+        </prompt>
+        <option dtmf="1" value="a">Précis</option>
+        <option dtmf="2" value="b">Inexact</option>
+        <option dtmf="0" value="Back">Répéter les options du menu.</option>
+        <noinput>Veuillez entrer un numéro.<reprompt/></noinput>      
+        <nomatch>Ce n’est pas une option. Essayer à nouveau.<reprompt/></nomatch>
+        <filled namelist="feedback">
+            <if cond="feedback == 'Back'">
+                <goto next="#menu1"/>
+            </if>
+            <if cond="feedback == 'a'">
+                <prompt bargein="true">Votre sélection est « Précis ». Merci pour votre avis.</prompt>
+                <goto next="#menu1"/>
+            </if>
+            <if cond="feedback == 'b'">
+                <prompt bargein="true">Votre sélection est "Inexacte". Merci pour votre avis.</prompt>
+                <goto next="#menu1"/>
+            </if>
+        </filled>
+    </field>
+ </form>
+
+ </vxml>

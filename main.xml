@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vxml version = "2.1" >
+<property name="inputmodes" value="dtmf" /> 
+
+<form id="languageSelection">
+    <field name="language">
+        <prompt bargein="true">
+            Please select a language.
+            For English, press 1.
+            For French, press 2.
+        </prompt>
+        <option dtmf="1" value="English"/>
+        <option dtmf="2" value="French"/>
+        <noinput>Please enter a number.<reprompt/></noinput>      
+        <nomatch>This is no option. Try again.<reprompt/></nomatch>
+    </field>
+    <filled namelist="language">
+        <if cond="language == 'English'">
+            <goto next="english.xml"/>
+        </if>
+        <if cond="language == 'French'">
+            <goto next="french.xml"/>
+        </if>
+    </filled>
+</form>
+</vxml>

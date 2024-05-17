@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vxml version = "2.1" >
+<property name="inputmodes" value="dtmf" /> 
+
+ <form id="menu0">
+   <block>
+   	<prompt bargein="true">Welcome to the weather helper for agriculture.</prompt>
+   	<prompt bargein="true">Today, April 16, 2024, local position, Cairo</prompt>
+    <prompt bargein="true">Emergency weather broadcast: 70% probability of hail today, expected to be 10AM-5PM, please pay attention to avoid danger.</prompt>
+	<goto next="#menu1"/>
+   </block>
+ </form>
+
+ <form id="menu1">
+   <field name="page">
+	<prompt bargein="true">
+		Which page would you like to read?
+		<enumerate>For <value expr="_prompt"/>, press <value expr="_dtmf"/>.</enumerate>
+	</prompt>
+	<option dtmf="1" value="today">Weather information</option>
+	<option dtmf="2" value="history">Historical weather information</option>
+	<option dtmf="3" value="feedback">Weather feedback</option>
+	<option dtmf="0" value="Back">Repeat menu options</option>
+	<noinput>Please enter a number.<reprompt/></noinput>      
+  	<nomatch>This is no option. Try again.<reprompt/></nomatch>
+   <filled namelist="page">
+        <if cond="page == 'Back'">
+            <goto next="main.xml"/>
+        </if>
+        <if cond="page == 'today'">
+            <prompt bargein="true">Weather: Sunny, Temperature: 20 degrees Celsius, suitable for outdoor sports, Rainfall: 0 ml, Wind speed: Moderate wind, comfortable movement. Tomorrow, expected weather: showers, temperature expected at 11°C, low chance of rain, no wind. The day after tomorrow, the expected weather: windy, expected to be slightly colder, need to add clothes.</prompt>
+            <goto next="#menu1"/>
+        </if>
+        <if cond="page == 'history'">
+            <prompt bargein="true">Weather conditions were similar in the same period last year. Temperatures range from 12 to 20 degrees Celsius, and most weather is sunny and windy.</prompt>
+            <goto next="#menu1"/>
+        </if>
+        <if cond="page == 'feedback'">
+            <goto next="#menu2"/>
+        </if>
+  </filled>
+  </field>
+ </form>
+
+ <form id="menu2">
+    <field name="feedback">
+        <prompt bargein="true">Was the weather accurate yesterday?
+            <enumerate>For <value expr="_prompt"/>, press <value expr="_dtmf"/>.</enumerate>
+        </prompt>
+        <option dtmf="1" value="a">Accurate</option>
+        <option dtmf="2" value="b">Inaccurate</option>
+        <option dtmf="0" value="Back">Repeat menu options</option>
+        <noinput>Please enter a number.<reprompt/></noinput>      
+        <nomatch>This is no option. Try again.<reprompt/></nomatch>
+        <filled namelist="feedback">
+            <if cond="feedback == 'Back'">
+                <goto next="#menu1"/>
+            </if>
+            <if cond="feedback == 'a'">
+                <prompt bargein="true">Your selection is "Accurate". Thank you for your feedback.</prompt>
+                <goto next="#menu1"/>
+            </if>
+            <if cond="feedback == 'b'">
+                <prompt bargein="true">Your selection is "Inaccurate". Thank you for your feedback.</prompt>
+                <goto next="#menu1"/>
+            </if>
+        </filled>
+    </field>
+ </form>
+
+ </vxml>
