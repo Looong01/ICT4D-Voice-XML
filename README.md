@@ -1,5 +1,5 @@
 # ICT4D-Voice-XML
-Voice XML Service for ICT4D
+Voice XML Service for ICT4D of Group 11
 
 ### Introduction
 This is the source code of Voice XML Service for ICT4D's Assignment, about providing weather forecast for the farmers in West Africa with a Phone calling information searching.
